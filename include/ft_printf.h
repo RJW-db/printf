@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/11 17:39:55 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/24 13:41:11 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/24 14:28:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct p_print
 	int8_t		spec;
 	va_list		va;
 	int32_t		mal;
-	char	*	str;
+	char		*str;
 	int32_t		i;
 	int32_t		k;
 	bool		count_or_str;
