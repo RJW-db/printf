@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/11 17:39:55 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/24 16:45:49 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/24 14:28:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,37 @@
 typedef struct p_print
 {
 	const char	*fmt;
-	int8_t	spec;
-	va_list	va;
-	int32_t	mal;
-	char	*str;
-	int32_t	i;
-	int32_t	k;
-	bool	count_or_str;
+	int8_t		spec;
+	va_list		va;
+	int32_t		mal;
+	char		*str;
+	int32_t		i;
+	int32_t		k;
+	bool		count_or_str;
 }	t_p;
 
 typedef struct s_flags
 {
-	char	sp;
-	bool	space;
-	bool	plus;
-	bool	dash;
-	bool	zero;
-	bool	hash;
-	int8_t	hsh;
-	int32_t	width;
-	bool	dot;
-	int32_t	prec;
-	int32_t	f_len;
-	int32_t	ap_len;
-	bool	minus;
-	char	sign;
-	int64_t	nbr;
-	char	*base;
-	int8_t	b_num;
-	char	prefix[3];
-	bool	stop;
-	va_list	count;
+	char		sp;
+	bool		space;
+	bool		plus;
+	bool		dash;
+	bool		zero;
+	bool		hash;
+	int8_t		hsh;
+	int32_t		width;
+	bool		dot;
+	int32_t		prec;
+	int32_t		f_len;
+	int32_t		ap_len;
+	bool		minus;
+	char		sign;
+	int64_t		nbr;
+	char		*base;
+	int8_t		b_num;
+	char		prefix[3];
+	bool		stop;
+	va_list		count;
 }	t_fl;
 
 int		ft_printf(const char *fmt, ...);
