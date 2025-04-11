@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/09 18:09:43 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/24 23:21:58 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:45:22 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	chr_bonus_write(t_p *p, t_fl *f)
 	{
 		p->i += move_num_chr(p->str + p->i, ' ', f->width - 1);
 	}
-	p->str[p->i] = va_arg(p->va, int32_t);
+	p->str[p->i] = (char)va_arg(p->va, int32_t);
 	++p->i;
 	if (f->dash == true && f->width > 0)
 	{

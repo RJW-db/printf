@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/14 14:40:19 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/13 16:54:10 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:50:43 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	int_bonus_count(t_p *c, t_fl *f)
 
 	f->nbr = va_arg(c->va, int32_t);
 	prefix = ((f->nbr < 0) || f->plus || (f->width <= 0 && f->space));
-	f->ap_len = signed_count(f->nbr) + (prefix == 1 && (f->nbr >= 0));
+	f->ap_len = signed_count((int32_t)f->nbr) + (prefix == 1 && (f->nbr >= 0));
 	if (f->ap_len - prefix >= f->prec)
 		f->width -= f->ap_len;
 	else
@@ -64,7 +64,7 @@ void	int_bonus_write(t_p *p, t_fl *f)
 
 	f->nbr = va_arg(p->va, int32_t);
 	prefix = ((f->nbr < 0) || f->plus || (f->width <= 0 && f->space));
-	f->ap_len = signed_count(f->nbr) + (prefix == 1 && (f->nbr >= 0));
+	f->ap_len = signed_count((int32_t)f->nbr) + (prefix == 1 && (f->nbr >= 0));
 	if (f->ap_len - prefix >= f->prec)
 		f->width -= f->ap_len;
 	else
@@ -101,7 +101,7 @@ static void	count_p2(t_p *c, t_fl *f, int32_t prefix)
 	if (f->nbr != 0 || (f->width && f->prec) || (f->nbr == 0
 			&& f->dot == false))
 	{
-		c->mal += unsigned_count(f, f->nbr);
+		c->mal += unsigned_count(f, (uint64_t)f->nbr);
 	}
 	else if (f->nbr == 0 && f->space == true && f->width > 0)
 		c->mal += 1;
@@ -129,7 +129,7 @@ static void	int_bonus_p2(t_p *p, t_fl *f, int32_t prefix)
 		p->i += move_num_chr(p->str + p->i, '0', f->width);
 	if (f->nbr != 0 || (f->width && f->prec) || (f->nbr == 0
 			&& f->dot == false))
-		p->i += ft_ultoa_base(f, f->nbr, p->str + p->i);
+		p->i += ft_ultoa_base(f, (uint64_t)f->nbr, p->str + p->i);
 	else if (f->nbr == 0 && f->space == true && f->width > 0)
 		p->i += move_str(p->str + p->i, " ");
 	if (f->width >= 0 && f->dash == true)

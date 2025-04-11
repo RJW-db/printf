@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/13 16:09:26 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/13 17:09:20 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:44:38 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	spec_str_one(t_p *p, t_fl *f)
 
 	if (f->sp == 'c')
 	{
-		p->i += move_num_chr(p->str + p->i, va_arg(p->va, int32_t), 1);
+		p->i += move_num_chr(p->str + p->i, (char)va_arg(p->va, int32_t), 1);
 	}
 	else if (f->sp == 's')
 	{
@@ -70,7 +70,7 @@ void	spec_str_two(t_p *p, t_fl *f)
 {
 	if (f->sp == 'p')
 	{
-		f->nbr = va_arg(p->va, uint64_t);
+		f->nbr = (int64_t)va_arg(p->va, uint64_t);
 		if (f->nbr == 0)
 		{
 			p->i += move_str(p->str + p->i, "(nil)");
@@ -78,7 +78,7 @@ void	spec_str_two(t_p *p, t_fl *f)
 		else
 		{
 			p->i += move_str(p->str + p->i, "0x");
-			p->i += ft_ultoa_base(f, f->nbr, p->str + p->i);
+			p->i += ft_ultoa_base(f, (uint64_t)f->nbr, p->str + p->i);
 		}
 	}
 	else if (f->sp == 'x' || f->sp == 'X' || f->sp == 'u')

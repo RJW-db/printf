@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/15 13:29:00 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/24 23:21:29 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:34:07 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int32_t	ft_printf_all(int fd, const char *format, va_list args)
 	va_copy(print.va, args);
 	total = parse_format_string(&print);
 	va_end(print.va);
-	print.str = (char *)malloc((total + 1) * sizeof(char));
+	print.str = (char *)malloc(((size_t)total + 1) * sizeof(char));
 	if (print.str == NULL)
 		return (0);
 	print.str[total] = '\0';
@@ -65,7 +65,7 @@ static int32_t	ft_printf_all(int fd, const char *format, va_list args)
 	va_copy(print.va, args);
 	parse_format_string(&print);
 	va_end(print.va);
-	if (write(fd, print.str, total) == -1)
+	if (write(fd, print.str, (size_t)total) == -1)
 		perror("ft_printf_all: write:");
 	free(print.str);
 	return (total);

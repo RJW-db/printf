@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/04 18:07:23 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/24 23:09:01 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:47:55 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int32_t	spec_count_one(t_p *c, t_fl *f)
 			null_check_len = null_check;
 			while (*null_check_len != '\0')
 				++null_check_len;
-			return (null_check_len - null_check);
+			return ((int32_t)(null_check_len - null_check));
 		}
 	}
 	return (signed_count(va_arg(c->va, int32_t)));
@@ -108,7 +108,7 @@ int32_t	unsigned_count(t_fl *f, uint64_t n)
 	word_size = 0;
 	while (n != 0)
 	{
-		n /= f->b_num;
+		n /= (uint64_t)f->b_num;
 		word_size = word_size + 1;
 	}
 	return (word_size);
@@ -128,8 +128,8 @@ int32_t	ft_ultoa_base(t_fl *f, uint64_t n, char *str)
 	i = 19;
 	while (n != 0)
 	{
-		store[i] = f->base[n % f->b_num];
-		n /= f->b_num;
+		store[i] = f->base[n % (uint64_t)f->b_num];
+		n /= (uint64_t)f->b_num;
 		i--;
 	}
 	return (move_str(str, &store[i + 1]));

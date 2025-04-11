@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 23:32:25 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/24 23:21:42 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:54:23 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void	before_or_after(t_p *p, t_fl *f, bool stop, int8_t nil);
 void	nbr_bonus_count(t_p *c, t_fl *f)
 {
 	if (f->sp != 'p')
-		f->nbr = va_arg(c->va, uint32_t);
+		f->nbr = (int64_t)va_arg(c->va, uint32_t);
 	else
-		f->nbr = va_arg(c->va, uint64_t);
+		f->nbr = (int64_t)va_arg(c->va, uint64_t);
 	if (f->sp == 'p' && f->nbr == 0)
 		f->ap_len += 5;
 	else
-		f->ap_len = unsigned_count(f, f->nbr);
+		f->ap_len = unsigned_count(f, (uint64_t)f->nbr);
 	if (f->sp == 'p' && f->nbr != 0)
 		f->ap_len += 2;
 	if (f->sp != 'p' && f->hash == true && f->width == 0 && f->nbr == 0)
@@ -62,15 +62,15 @@ void	nbr_bonus_write(t_p *p, t_fl *f)
 	stop = false;
 	nil_check = 0;
 	if (f->sp != 'p')
-		f->nbr = va_arg(p->va, uint32_t);
+		f->nbr = (int64_t)va_arg(p->va, uint32_t);
 	else
-		f->nbr = va_arg(p->va, uint64_t);
+		f->nbr = (int64_t)va_arg(p->va, uint64_t);
 	if (f->sp == 'p' && f->nbr == 0)
 	{
 		f->nbr = 5;
 		nil_check = 2;
 	}
-	f->ap_len = unsigned_count(f, f->nbr);
+	f->ap_len = unsigned_count(f, (uint64_t)f->nbr);
 	if (f->ap_len >= f->prec)
 		f->width -= f->ap_len;
 	else
@@ -103,7 +103,7 @@ static void	before_or_after(t_p *p, t_fl *f, bool stop, int8_t nil)
 			&& stop == false)
 			p->i += move_str(p->str + p->i, f->prefix);
 		if (nil == false)
-			p->i += ft_ultoa_base(f, f->nbr, p->str + p->i);
+			p->i += ft_ultoa_base(f, (uint64_t)f->nbr, p->str + p->i);
 		else
 			p->i += move_str(p->str + p->i, "(nil)");
 	}

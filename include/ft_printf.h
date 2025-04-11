@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/11 17:39:55 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/24 23:26:47 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:39:27 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		ft_dprintf(int fd, const char *format, ...);
 int		ft_vprintf(const char *format, va_list args);
 
 int32_t	parse_format_string(t_p *c);
-int32_t	parse_format(t_p *c, t_fl *f, int32_t i);
+int8_t	parse_format(t_p *c, t_fl *f, int32_t i);
 void	flag_check(t_p *c, t_fl *f);
 
 int32_t	spec_count_one(t_p *c, t_fl *f);

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/12 16:05:47 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/24 23:08:18 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:52:39 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	flag_check(t_p *c, t_fl *f)
 {
 	int8_t	count_flags;
 
-	count_flags = f->f_len + f->width + f->dot;
+	count_flags = (int8_t)(f->f_len + f->width + f->dot);
 	if (c->count_or_str == true && count_flags == 0)
 	{
 		if (f->sp == 'c' || f->sp == 's' || f->sp == 'd' || f->sp == 'i')

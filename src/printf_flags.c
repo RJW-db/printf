@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/12 00:29:08 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/24 23:25:22 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:48:50 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 //	Static Functions
 static void		flags_reset(t_fl *f);
-static int32_t	find_spec(t_fl *f, const char fmt, int8_t i);
+static int8_t	find_spec(t_fl *f, const char fmt, int8_t i);
 static int32_t	get_flags(t_p *c, t_fl *f, int32_t k);
 static int32_t	get_width_prec(t_p *c, t_fl *f, int32_t k, int32_t *width_prec);
 
-int32_t	parse_format(t_p *c, t_fl *f, int32_t k)
+int8_t	parse_format(t_p *c, t_fl *f, int32_t k)
 {
 	int32_t	begin;
 	int8_t	specifier;
@@ -62,7 +62,7 @@ static void	flags_reset(t_fl *f)
 	move_num_chr(f->prefix, '\0', 3);
 }
 
-static int32_t	find_spec(t_fl *f, const char fmt, int8_t i)
+static int8_t	find_spec(t_fl *f, const char fmt, int8_t i)
 {
 	while (SPECIFIER[i] != '\0')
 	{
