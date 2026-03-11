@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>		//	malloc
-#include <unistd.h>		//	STDOUT_FILENO
-#include <stdio.h>		//	perror
-#include <ft_printf.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include "ft_printf.h"
 
-//	Static Functions
 static int32_t	ft_printf_all(int fd, const char *format, va_list args);
 
 int	ft_printf(const char *format, ...)

@@ -1,55 +1,76 @@
 NAME			:=	printf.a
 
-#	Compiler and Flags
-COMPILER		:=	gcc
-CFLAGS			+=	-Wall -Wextra
-CFLAGS			+=	-Werror
-CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
-CFLAGS			+=	-MMD -MP
-# CFLAGS			+=	-g
-#	Werror cannot go together with fsanitize, because fsanitize won't work correctly.
-# CFLAGS			+=	-fsanitize=address
+MAKEFLAGS		+=	-j
+COMPILER		:=	cc
 
-#	Utilities
+BASE_FLAGS		:=	-std=c99 -Wall -Wextra -Werror
+
+PEDANTIC		:=	-Wpedantic -pedantic-errors -Wundef -Wstrict-prototypes
+
+WARNINGS		:=	-Wshadow -Wconversion -Wsign-conversion			\
+					-Wformat=2 -Wuninitialized -Wunreachable-code
+
+CAST_WARNINGS	:=	-Wbad-function-cast
+ifeq ($(shell $(COMPILER) --version | grep -c "gcc"),1)
+CAST_WARNINGS	+=	-Wcast-function-type
+endif
+
+DEPFLAGS		:=	-MMD -MP
+
+OPTIMIZATION	:=	-O2
+SECURITY		:=	-fstack-protector-strong
+ifeq ($(shell uname -s),Linux)
+SECURITY		+=	-D_FORTIFY_SOURCE=2
+FSANITIZE		:=	leak
+endif
+
+SANITIZERS		:=	-fsanitize=$(FSANITIZE),address,undefined,null,integer-divide-by-zero,signed-integer-overflow,bounds,alignment
+DEBUG_FLAGS		:=	-fno-omit-frame-pointer
+
+CFLAGS			:=	$(BASE_FLAGS) $(PEDANTIC) $(WARNINGS) $(CAST_WARNINGS) \
+					$(DEPFLAGS) $(OPTIMIZATION) $(SECURITY)
+
+ifneq ($(filter valgrind,$(MAKECMDGOALS)),)
+CFLAGS			+=	-g $(DEBUG_FLAGS)
+else ifneq ($(filter debug,$(MAKECMDGOALS)),)
+CFLAGS			+=	-g3 $(SANITIZERS) $(DEBUG_FLAGS) -fno-sanitize-recover=all
+endif
+
+ifneq ($(filter malloc,$(MAKECMDGOALS)),)
+CFLAGS			+=	-D MALLOC_WRAP=true
+endif
+
+PRINT_NO_DIR	:=	--no-print-directory
 RM				:=	rm -rf
 
-#		Base Directories
-SRC_DIR			:=	src/
-INC_DIR			:=	include/
-BUILD_DIR		:=	.build/
+SRC_DIR			:=	src
+INC_DIR			:=	include
+BUILD_DIR		:=	.build
 
-#		Source files by category
-PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
-					printf_count.c				printf_flags.c					printf_int.c			\
-					printf_sort_spec.c			printf_str_count.c				printf_str.c			\
+PRNTF			:=	printf.c					printf_process_format.c			printf_char.c	\
+					printf_count.c				printf_flags.c					printf_int.c	\
+					printf_sort_spec.c			printf_str_count.c				printf_str.c	\
 					printf_unsigned.c			printf_utils.c
 
-#		Extra Sources
-PRINTF_SRCS		:=	$(addprefix $(SRC_DIR), $(PRNTF))
+# Generate source file names
+SRC				:=	$(addprefix $(SRC_DIR)/, $(PRNTF))
 
-#		Generate object file names
-PRINTF_OBJS		:=	$(PRINTF_SRCS:%.c=$(BUILD_DIR)%.o)
+# Generate object file names
+OBJ				:=	$(SRC:%.c=$(BUILD_DIR)/%.o)
 
-#		Generate Dependency files
-DEPS			:=	$(PRINTF_OBJS:.o=.d)
+# Generate Dependency files
+DEPS			:=	$(OBJ:.o=.d)
 
-#		Header files
-HEADERS			:=	$(INC_DIR)ft_printf.h
+DELETE			:=	*.out			**/*.out		.DS_Store	\
+					**/.DS_Store	.dSYM/			**/.dSYM/
 
-#		Remove these created files
-DELETE			:=	*.out			**/*.out			.DS_Store										\
-					**/.DS_Store	.dSYM/				**/.dSYM/
-
-#		Default target
 all: $(NAME)
 
-#		Main target
-$(NAME): $(PRINTF_OBJS)
-	@ar rcs $(NAME) $(PRINTF_OBJS)
+$(NAME): $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-#		Compile .c files to .o files
-$(BUILD_DIR)%.o: %.c $(HEADERS)
+$(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
@@ -61,27 +82,32 @@ fclean: clean
 	@$(RM) $(NAME) $(DELETE)
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
-re: fclean all
+re:
+	$(MAKE) $(PRINT_NO_DIR) fclean
+	$(MAKE) $(PRINT_NO_DIR) all
+
+valgrind: all
+
+debug: all
 
 print-%:
 	$(info $($*))
 
-#		Include dependencies
 -include $(DEPS)
 
-.PHONY:	all clean fclean re print-%
+.PHONY:	all clean fclean re valgrind debug print-%
 
-# ----------------------------------- colors --------------------------------- #
-BOLD			=	\033[1m
-GREEN			=	\033[32m
-MAGENTA			=	\033[35m
-CYAN			=	\033[36m
-RESET			=	\033[0m
+# Terminal markup
+BOLD			:=	\033[1m
+GREEN			:=	\033[32m
+MAGENTA			:=	\033[35m
+CYAN			:=	\033[36m
+RESET			:=	\033[0m
 
-R_MARK_UP		=	$(MAGENTA)$(BOLD)
-CA_MARK_UP		=	$(GREEN)$(BOLD)
+R_MARK_UP		:=	$(MAGENTA)$(BOLD)
+CA_MARK_UP		:=	$(GREEN)$(BOLD)
 
-# ----------------------------------- messages ------------------------------- #
+# Current directory and formatted status messages
 CUR_DIR			:=	$(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 REMOVED			:=	$(R_MARK_UP)REMOVED $(CYAN)%s$(MAGENTA) (%s) $(RESET)\n
 CREATED			:=	$(CA_MARK_UP)CREATED $(CYAN)%s$(GREEN) (%s) $(RESET)\n
