@@ -54,7 +54,7 @@ static int32_t	ft_printf_all(int fd, const char *format, va_list args)
 	print.fmt = format;
 	print.count_or_str = true;
 	va_copy(print.va, args);
-	total = parse_format_string(&print);
+	total = (int32_t)parse_format_string(&print);
 	va_end(print.va);
 	print.str = (char *)malloc(((size_t)total + 1) * sizeof(char));
 	if (print.str == NULL)

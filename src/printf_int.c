@@ -93,7 +93,7 @@ static void	count_p2(t_p *c, t_fl *f, int32_t prefix)
 	else if (f->width >= 0 && f->dash == false && f->zero == false)
 		c->mal += f->width;
 	if (f->sign != 'X')
-		c->mal += 1;
+		++c->mal;
 	if (f->dot == true && f->prec - f->ap_len + prefix > 0)
 		c->mal += f->prec - f->ap_len + prefix;
 	else if (f->zero == true && f->width > 0 && f->dot == false)
@@ -104,7 +104,7 @@ static void	count_p2(t_p *c, t_fl *f, int32_t prefix)
 		c->mal += unsigned_count(f, (uint64_t)f->nbr);
 	}
 	else if (f->nbr == 0 && f->space == true && f->width > 0)
-		c->mal += 1;
+		++c->mal;
 	if (f->width >= 0 && f->dash == true)
 	{
 		c->mal += f->width + (f->dot == true && f->nbr == 0 && f->space == false
@@ -134,7 +134,7 @@ static void	int_bonus_p2(t_p *p, t_fl *f, int32_t prefix)
 		p->i += move_str(p->str + p->i, " ");
 	if (f->width >= 0 && f->dash == true)
 	{
-		p->i += move_num_chr(p->str + p->i, ' ', f->width + (f->dot == true
+		p->i += move_num_chr(p->str + p->i, ' ', f->width + (int32_t)(f->dot == true
 					&& f->nbr == 0 && f->space == false && f->prec == 0));
 	}
 }

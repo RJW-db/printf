@@ -25,7 +25,7 @@ int32_t	signed_decimal_base(char *str, int32_t n)
 		str[0] = '0';
 		return (1);
 	}
-	negative = n;
+	negative = (int64_t)n;
 	if (negative < 0)
 		negative *= -1;
 	number = &((char *)store)[11];
@@ -41,7 +41,7 @@ int32_t	signed_decimal_base(char *str, int32_t n)
 
 int32_t	move_str(char *dst, const char *src)
 {
-	int8_t	i;
+	int32_t	i;
 
 	i = 0;
 	while (src[i] != '\0')
@@ -54,7 +54,7 @@ int32_t	move_str(char *dst, const char *src)
 
 int32_t	move_num_src(char *dst, const char *src, int32_t num)
 {
-	int8_t	i;
+	int32_t	i;
 
 	i = 0;
 	while (src[i] != '\0' && num > 0)
@@ -68,7 +68,7 @@ int32_t	move_num_src(char *dst, const char *src, int32_t num)
 
 int32_t	move_num_chr(char *str, const char c, int32_t n)
 {
-	int8_t	i;
+	int32_t	i;
 
 	i = 0;
 	while (i < n)

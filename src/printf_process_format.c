@@ -46,7 +46,7 @@ void	spec_str_one(t_p *p, t_fl *f)
 
 	if (f->sp == 'c')
 	{
-		p->i += move_num_chr(p->str + p->i, (char)va_arg(p->va, int32_t), 1);
+		p->i += move_num_chr(p->str + p->i, (char)va_arg(p->va, int), 1);
 	}
 	else if (f->sp == 's')
 	{
@@ -62,7 +62,7 @@ void	spec_str_one(t_p *p, t_fl *f)
 	}
 	else if (f->sp == 'd' || f->sp == 'i')
 	{
-		p->i += signed_decimal_base(p->str + p->i, va_arg(p->va, int32_t));
+		p->i += signed_decimal_base(p->str + p->i, va_arg(p->va, int));
 	}
 }
 

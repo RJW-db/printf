@@ -19,7 +19,7 @@ int32_t	spec_count_one(t_p *c, t_fl *f)
 
 	if (f->sp == 'c')
 	{
-		va_arg(c->va, int32_t);
+		va_arg(c->va, int);
 		return (1);
 	}
 	else if (f->sp == 's')
@@ -37,7 +37,7 @@ int32_t	spec_count_one(t_p *c, t_fl *f)
 			return ((int32_t)(null_check_len - null_check));
 		}
 	}
-	return (signed_count(va_arg(c->va, int32_t)));
+	return (signed_count(va_arg(c->va, int)));
 }
 
 int32_t	spec_count_two(t_p *c, t_fl *f)
@@ -130,7 +130,7 @@ int32_t	ft_ultoa_base(t_fl *f, uint64_t n, char *str)
 	{
 		store[i] = f->base[n % (uint64_t)f->b_num];
 		n /= (uint64_t)f->b_num;
-		i--;
+		--i;
 	}
 	return (move_str(str, &store[i + 1]));
 }
